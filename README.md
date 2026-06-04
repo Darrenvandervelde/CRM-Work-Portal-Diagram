@@ -1,6 +1,6 @@
 # CRM Work Portal Architecture Diagram
 
-<img src="LiveDemo.png" alt="">
+<a href="https://crm-work-portal-diagram.vercel.app/"><img src="LiveDemo.png" alt=""></a>
 
 ## Overview
 

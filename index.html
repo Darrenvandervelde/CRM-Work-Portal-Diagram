@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture Diagram</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <style>
+    :root {
+        --ColorWidth: 35px;
+        --ColorHeight: 10px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    .mermaid {
+      background: white;
+      margin-top: 80px;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .mermaid-h2 {
+        position: absolute;
+        top: 2%;
+        left: 5%;
+        width: 600px;
+        height: 120px;
+        color: red;
+    }
+
+    .sideBar {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 12px;
+        margin-top: 90px;
+        margin-right: 30px;
+        width: 300px;
+        border-radius: 12px;
+        background-color: rgba(248, 245, 198, 0.452);
+    }
+
+    .sideBar h2 {
+        border-left: 3px solid blue;
+        padding: 0 12px;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 500;
+        font-style: oblique;
+        font-size: 26px;
+    }
+
+    .sideBarBtn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: 70px;
+        margin-right: 12px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.6s cubic-bezier(0.15, 1, 0.25, 1); 
+        will-change: transform; 
+        border-radius: 50%;
+        background: url(ChartIcon.png) center/cover no-repeat;
+    }
+
+    .sideBarBtn.active {
+      transform: rotate(180deg) scale(1.45);
+      cursor: pointer;
+    }
+
+    .ColorCards {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        width: 150px;
+        padding: 25px;
+        margin: 10px;
+    }
+
+    .ColorCards label {
+        width: 120px;
+        padding: 3px;
+    }
+
+    /* Color Cards*/
+    .FrontendWireColor {
+        background-color: green;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .AuthColor {
+        background-color: blue;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .ElectronServicesColor {
+        background-color: gray;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .BackendColor {
+        background-color: purple;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .FeaturesColor {
+        background-color: teal;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .RealTimeColor {
+        background-color: red;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .BackgroundJobsColor {
+        background-color: pink;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .DataColor {
+        background-color: indigo;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+    
+    .CacheColor {
+        background-color: yellow;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .ObservabilityColor {
+        background-color: gray;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .CI-CDColor {
+        background-color: black;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+
+    .AutoUpdateLoopColor {
+        background-color: lime;
+        width: var(--ColorWidth);
+        height: var(--ColorHeight);
+        padding: 4px;
+    }
+    
+    .mainHeader {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 35px;
+        color: black;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 35px;
+        font-weight: 600;
+        font-style: oblique;
+    }
+
+    .about {
+        position: relative;
+    }
+    .aboutHeader {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        color: black;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 20px;
+        font-weight: 600;
+        font-style: oblique;
+    }
+
+    #runFlowBtn {
+        position: absolute;
+        top: 85px;
+        left: 25px;
+        padding: 10px 20px;
+        border: hidden;
+        color: black;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.150);
+        border-radius: 12px;
+        cursor: pointer;
+        background-color: rgba(248, 245, 198, 0.452);
+        z-index: 999;
+    }
+
+    #runFlowBtn:hover {
+        transform: scale(1.06);
+    }
+
+    .edgePath path {
+        transition: all 0.3s ease;
+    }
+
+    .popup {
+        position: fixed;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        transition: top 0.5s ease-in-out; 
+        padding: 1px 10px;
+        background-color: #25b301;
+        color: #fff;
+        border-radius: 8px;
+        z-index: 1000;
+    }
+
+    .popup.online {
+      top: -5px;
+    }
+
+    .popup h1 {
+      font-size: 12px;
+    }
+
+  </style>
+</head>
+<body>
+
+<button id="runFlowBtn">Run Flow Simulation</button>
+
+<div id="loadingPopup" class="popup">
+  <h1>Online</h1>
+</div>
+
+<h1 class="mainHeader">CRM Work Portal Diagram</h1>
+<div id="container">
+    <div id="sideBar" class="sideBar">
+        <h2>Wire Connections Color Chart</h2>
+        <div class="ColorCards">
+            <!-- Color Blocks-->
+            <div id="FrontendWireColor" class="FrontendWireColor"></div>
+            <label for="FrontendWireColor">FrontendWire</label>
+
+            <div id="AuthColor" class="AuthColor"></div>
+            <label for="AuthColor">Auth</label>
+            
+            <div id="ElectronServicesColor" class="ElectronServicesColor"></div>
+            <label for="ElectronServiceColor">ElectronService</label>
+
+            <div id="BackendColor" class="BackendColor"></div>
+            <label for="BackendColor">Backend</label>
+
+            <div id="FeaturesColor" class="FeaturesColor"></div>
+            <label for="FeaturesColor">Features</label>
+
+            <div id="RealTimeColor" class="RealTimeColor"></div>
+            <label for="RealTimeColor">Real Time</label>
+
+            <div id="BackgroundJobsColor" class="BackgroundJobsColor"></div>
+            <label for="BackgroundJobsColor">Background Jobs</label>
+
+            <div id="DataColor" class="DataColor"></div>
+            <label for="DataColor">Data</label>
+
+            <div id="CacheColor" class="CacheColor"></div>
+            <label for="CacheColor">Cache</label>
+
+            <div id="ObservabilityColor" class="ObservabilityColor"></div>
+            <label for="ObservabilityColor">Observability</label>
+
+            <div id="CI-CDColor" class="CI-CDColor"></div>
+            <label for="CI-CDColor">CI/CD</label>
+
+            <div id="AutoUpdateLoopColor" class="AutoUpdateLoopColor"></div>
+            <label for="AutoUpdateLoopColor">Auto Update Loop</label>
+        </div>
+    </div>
+    <div class="mermaid">
+
+    %%{init: {'theme':'base'}}%%
+
+    flowchart TD
+
+    A[User Opens Work Portal] --> B[Electron Desktop Application]
+
+    subgraph Frontend Layer
+        B --> C[HTML UI]
+        C --> D[CSS Styling]
+        C --> E[JavaScript Logic]
+        E --> F[State Management / UI Controller]
+    end
+
+    subgraph Authentication Layer
+        F --> G[Login Screen]
+        G --> H[SSO Authentication]
+        H --> I[JWT Token Generation]
+        I --> J[Session Management]
+        J --> K[RBAC Role & Permission Check]
+    end
+
+    subgraph Electron Services
+        B --> L[Electron Main Process]
+        L --> M[Auto Updater Service]
+        L --> N[IPC Communication Layer]
+    end
+
+    subgraph Backend API Layer
+        K --> O[Node.js Server]
+        O --> P[Express Router Layer]
+        P --> Q[Controllers]
+        Q --> R[Service Layer]
+        R --> S[Middleware Stack]
+
+        S --> S1[JWT Validation Middleware]
+        S --> S2[Error Handling Middleware]
+        S --> S3[Request Validation Middleware]
+        S --> S4[Rate Limiting Middleware]
+    end
+
+    subgraph Feature Services
+        R --> T[Employee Dashboard Service]
+        R --> U[Company Announcements Service]
+        R --> V[Task Management Service]
+        R --> W[Document Management Service]
+        R --> X[User Management Service]
+        R --> Y[Notification Service]
+    end
+
+    subgraph Real-Time Layer
+        O --> Z[WebSocket Server / Socket.io]
+        Z --> B
+        Z --> T
+        Z --> U
+        Z --> V
+    end
+
+    subgraph Background Processing
+        R --> AA[Job Queue - BullMQ / Redis]
+        AA --> AB[Worker Processes]
+        AB --> Y
+        AB --> W
+    end
+
+    subgraph Data Layer
+        P --> AC[(Neon Database)]
+        AC --> AD[(PostgreSQL)]
+
+        W --> AE[(Cloud Storage S3 / Blob Storage)]
+
+        AC --> T
+        AC --> U
+        AC --> V
+        AC --> X
+    end
+
+    subgraph Cache Layer
+        O --> AF[Redis Cache]
+        AF --> T
+        AF --> U
+        AF --> V
+    end
+
+    subgraph Observability
+        S --> AG[Logging System - Winston/Pino]
+        S --> AH[Error Tracking - Sentry]
+        O --> AI[Monitoring - Metrics/Health Checks]
+    end
+
+    subgraph CI_CD Pipeline
+        AJ[GitHub Repository] --> AK[GitHub Actions CI]
+        AK --> AL[Build & Test]
+        AL --> AM[Electron Builder]
+        AM --> AN[Windows EXE Installer]
+        AN --> AO[Release Distribution]
+    end
+
+    AO --> M
+    M --> B
+
+    %% =========================
+    %% LINK COLORS (WIRE COLORS)
+    %% =========================
+
+    %% Frontend (green)
+    linkStyle 1 stroke:#22c55e,stroke-width:2px
+    linkStyle 2 stroke:#22c55e,stroke-width:2px
+    linkStyle 3 stroke:#22c55e,stroke-width:2px
+    linkStyle 4 stroke:#22c55e,stroke-width:2px
+
+    %% Auth (blue)
+    linkStyle 5 stroke:#3b82f6,stroke-width:2px
+    linkStyle 6 stroke:#3b82f6,stroke-width:2px
+    linkStyle 7 stroke:#3b82f6,stroke-width:2px
+    linkStyle 8 stroke:#3b82f6,stroke-width:2px
+    linkStyle 9 stroke:#3b82f6,stroke-width:2px
+
+    %% Electron services (gray)
+    linkStyle 10 stroke:#6b7280,stroke-width:2px
+    linkStyle 11 stroke:#6b7280,stroke-width:2px
+    linkStyle 12 stroke:#6b7280,stroke-width:2px
+
+    %% Backend (purple)
+    linkStyle 13 stroke:#a855f7,stroke-width:2px
+    linkStyle 14 stroke:#a855f7,stroke-width:2px
+    linkStyle 15 stroke:#a855f7,stroke-width:2px
+    linkStyle 16 stroke:#a855f7,stroke-width:2px
+    linkStyle 17 stroke:#a855f7,stroke-width:2px
+    linkStyle 18 stroke:#a855f7,stroke-width:2px
+    linkStyle 19 stroke:#a855f7,stroke-width:2px
+    linkStyle 20 stroke:#a855f7,stroke-width:2px
+    linkStyle 21 stroke:#a855f7,stroke-width:2px
+    linkStyle 22 stroke:#a855f7,stroke-width:2px
+
+    %% Features (teal)
+    linkStyle 23 stroke:#14b8a6,stroke-width:2px
+    linkStyle 24 stroke:#14b8a6,stroke-width:2px
+    linkStyle 25 stroke:#14b8a6,stroke-width:2px
+    linkStyle 26 stroke:#14b8a6,stroke-width:2px
+    linkStyle 27 stroke:#14b8a6,stroke-width:2px
+
+    %% Real-time (red)
+    linkStyle 28 stroke:#ef4444,stroke-width:2px
+    linkStyle 29 stroke:#ef4444,stroke-width:2px
+    linkStyle 30 stroke:#ef4444,stroke-width:2px
+    linkStyle 31 stroke:#ef4444,stroke-width:2px
+
+    %% Background jobs (pink)
+    linkStyle 32 stroke:#ec4899,stroke-width:2px
+    linkStyle 33 stroke:#ec4899,stroke-width:2px
+    linkStyle 34 stroke:#ec4899,stroke-width:2px
+    linkStyle 35 stroke:#ec4899,stroke-width:2px
+
+    %% Data (indigo)
+    linkStyle 36 stroke:#6366f1,stroke-width:2px
+    linkStyle 37 stroke:#6366f1,stroke-width:2px
+    linkStyle 38 stroke:#6366f1,stroke-width:2px
+    linkStyle 39 stroke:#6366f1,stroke-width:2px
+    linkStyle 40 stroke:#6366f1,stroke-width:2px
+    linkStyle 41 stroke:#6366f1,stroke-width:2px
+
+    %% Cache (yellow)
+    linkStyle 42 stroke:#eab308,stroke-width:2px
+    linkStyle 43 stroke:#eab308,stroke-width:2px
+    linkStyle 44 stroke:#eab308,stroke-width:2px
+
+    %% Observability (gray)
+    linkStyle 45 stroke:#6b7280,stroke-width:2px
+    linkStyle 46 stroke:#6b7280,stroke-width:2px
+    linkStyle 47 stroke:#6b7280,stroke-width:2px
+
+    %% CI/CD (black)
+    linkStyle 48 stroke:#111827,stroke-width:2px
+    linkStyle 49 stroke:#111827,stroke-width:2px
+    linkStyle 50 stroke:#111827,stroke-width:2px
+    linkStyle 51 stroke:#111827,stroke-width:2px
+    linkStyle 52 stroke:#111827,stroke-width:2px
+
+    %% Auto update loop (lime)
+    linkStyle 53 stroke:#84cc16,stroke-width:2px
+    linkStyle 54 stroke:#84cc16,stroke-width:2px
+  </div>
+</div>
+
+<div id="sideBarBtn" class="sideBarBtn" onclick="sideBarModel()"></div>
+<div id="about" class="about">
+    <h6 class="aboutHeader" class="aboutHeader">Created by Darren van der Velde</h6>
+</div>
+<script>
+const sideBar = document.getElementById("sideBar");
+let simulationRunning = false;
+
+function sideBarModel() {
+  if (sideBar.style.display === "none" || sideBar.style.display === "") {
+    sideBar.style.display = "block";
+  } else {
+    sideBar.style.display = "none";
+  }
+}
+
+/* Wait for Mermaid diagram to render and SVG to be available */
+function waitForMermaidSVG() {
+  return new Promise((resolve) => {
+    const check = () => {
+      const svg = document.querySelector("#container .mermaid svg");
+      if (svg) {
+        resolve(svg);
+      } else {
+        requestAnimationFrame(check);
+      }
+    };
+    check();
+  });
+}
+
+/* Create pulse circle at the start of animation */
+function createPulse(svg) {
+  const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  pulse.id = "flowPulse";
+  pulse.setAttribute("r", "10");
+  pulse.setAttribute("fill", "#00ff00");
+  pulse.style.filter = "drop-shadow(0px 0px 12px #00ff00)";
+  pulse.style.pointerEvents = "none";
+  svg.appendChild(pulse);
+  return pulse;
+}
+
+/* Animate the pulse circle along a path */
+function animateAlongPath(pulse, path, duration = 800) {
+  return new Promise((resolve) => {
+    const totalLength = path.getTotalLength();
+    const startTime = performance.now();
+
+    function frame(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const point = path.getPointAtLength(totalLength * progress);
+      pulse.setAttribute("cx", point.x);
+      pulse.setAttribute("cy", point.y);
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        resolve();
+      }
+    }
+    requestAnimationFrame(frame);
+  });
+}
+
+async function runSimulation() {
+  if (simulationRunning) return;
+  simulationRunning = true;
+
+  try {
+    const svg = await waitForMermaidSVG();
+
+    // Remove existing pulse if any
+    const existingPulse = document.getElementById("flowPulse");
+    if (existingPulse) existingPulse.remove();
+
+    // Create a new pulse circle
+    const pulse = createPulse(svg);
+
+    // Select all paths with marker-end attribute (edges)
+    const paths = Array.from(svg.querySelectorAll("path[marker-end]"));
+
+    if (paths.length === 0) {
+      console.error("No Mermaid paths found.");
+      pulse.remove();
+      return;
+    }
+
+    for (const path of paths) {
+      // Save original stroke styles
+      const originalStroke = path.getAttribute("stroke");
+      const originalWidth = path.getAttribute("stroke-width");
+
+      // Highlight the current path
+      path.setAttribute("stroke", "#00ff00");
+      path.setAttribute("stroke-width", "6");
+
+      // Animate pulse along the path
+      await animateAlongPath(pulse, path, 900);
+
+      // Restore original style
+      if (originalStroke !== null) {
+        path.setAttribute("stroke", originalStroke);
+      }
+      if (originalWidth !== null) {
+        path.setAttribute("stroke-width", originalWidth);
+      }
+
+      // Small delay between animations
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+  } catch (error) {
+    console.error("Error during simulation:", error);
+  } finally {
+    // Cleanup
+    const pulse = document.getElementById("flowPulse");
+    if (pulse) pulse.remove();
+    simulationRunning = false;
+  }
+}
+
+/* image rotation */
+const image = document.querySelector('.sideBarBtn');
+
+image.addEventListener("click", () =>{
+  //toggle "active class on and off"
+  image.classList.toggle("active");
+})
+
+/* Initialize button click event */
+window.addEventListener("load", () => {
+  document.getElementById("runFlowBtn").addEventListener("click", runSimulation);
+});
+
+/* Notify */
+window.addEventListener("load", () => {
+  setTimeout(function() {
+    document.getElementById('loadingPopup').classList.add('online');
+  },300)
+});
+</script>
+</body>
+</html>

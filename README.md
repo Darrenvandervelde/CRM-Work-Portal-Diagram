@@ -1,6 +1,6 @@
 # CRM Work Portal Architecture Diagram
 
-<img src="assets/LiveDemo.png" alt="">
+<img src="LiveDemo.png" alt="">
 
 ## Overview
 

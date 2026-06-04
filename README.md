@@ -1,5 +1,7 @@
 # CRM Work Portal Architecture Diagram
 
+<img src="assets/LiveDemo.png" alt="">
+
 ## Overview
 
 An interactive architecture diagram for a CRM Work Portal desktop application built with Electron, Node.js, PostgreSQL, Redis, and Mermaid.js.
